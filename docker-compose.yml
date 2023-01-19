@@ -1,0 +1,35 @@
+version: '3.3'
+
+services:
+  # sqlserver:
+  #   image: mcr.microsoft.com/mssql/server:2019-CU15-ubuntu-20.04
+  #   container_name: housesDBsql
+  #   environment:
+  #   - SA_PASSWORD=123456
+  #   - ACCEPT_EULA=Y
+  #   restart: always
+  #   ports:
+  #   - "5435:1433" 
+  #   mem_limit: 2g
+  #   volumes:
+  #     - ./mssql_data:/var/opt/mssql
+
+  postgres:
+    image: postgres:13
+    container_name: postgres_13
+    environment:
+    - POSTGRES_DB=HousesDB
+    - POSTGRES_USER=root
+    - POSTGRES_PASSWORD=123456
+    ports:
+      - '5430:5432'
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin_4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=root@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=root
+    ports:
+      - '5431:80'

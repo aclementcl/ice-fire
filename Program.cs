@@ -4,15 +4,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-// builder.Services.AddDbContext<EFContext>(x => x.UseInMemoryDatabase("HousesDB"));
-builder.Services.AddSqlServer<HousesContext>(builder.Configuration.GetConnectionString("cnnHouses"));
+builder.Services.AddNpgsql<HousesContext>(builder.Configuration.GetConnectionString("cnnHouses"));
 
 var app = builder.Build();
 
 app.MapGet("/dbConnection", async ([FromServices] HousesContext dbContext) =>
 {
     dbContext.Database.EnsureCreated();
-    return Results.Ok($"Database created: {dbContext.Database.IsSqlServer()}");
+    return Results.Ok($"Database created: {dbContext.Database.IsNpgsql()}");
 });
 
 app.MapGet("/api/houses", async ([FromServices] HousesContext dbContext) =>
